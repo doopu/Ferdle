@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="title" content="Ferdle - Fire Emblem Wordle!">
+    <meta name="description" content="Wordle, but with a Fire Emblem twist!">
+    <meta name="keywords" content="fire emblem, wordle, logic game, game">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="language" content="English">
+    <title>Ferdle - Fire Emblem Wordle!</title>
+    <style>
+      canvas {
+      }
+      body{ height: 100vh; margin:0; }
+
+      header{ height:100px; background:lightcyan; }
+      footer{ height: 200px; background:PapayaWhip; }
+
+      body{
+	  justify-content: center;
+	  align-items: center;
+	  display:flex;
+	  flex-direction:column;
+      }
+
+      footer{
+	  margin-top:auto;
+      }
+
+      .container {
+	  width: 100%;
+      }
+
+      div {
+	  color: #183a1d;
+      }
+      html {
+	  font-family: sans-serif;
+	  -webkit-text-size-adjust: 100%;
+      }
+      div#keyboard {
+	  display: flex;
+	  flex-direction:column;
+	  justify-content: center;
+	  align-items: center;
+	  height: 100%;
+      }
+      span {
+	  width:35px;
+	  height:50px;
+	  background:lightgrey;
+	  border-radius: 0.5em;
+	  margin: 3px;
+	  text-align: center;
+	  display: inline-flex;
+	  align-items: center;
+	  justify-content: center;
+      }
+      main {
+	  height: 100%;
+      }
+  </style>
+</head>
+  <body>
+    <header><h1>FERDLE</h1><h2>Fire Emblem Wordle!</h2></header>
+    <main>
+	<div id="canvasDiv">
+	  <canvas id="mainCanvas" width="800px" height="400px">Your browser is too outdated to play Ferdle, please update at your earliest convenience.</canvas>
+	</div>
+    </main>
+    <footer>
+      <div id="keyboard">
+	<div id="row1">
+	  <span class="key" id="Qkey">Q</span>
+	  <span class="key" id="Wkey">W</span>
+	  <span class="key" id="Ekey">E</span>
+	  <span class="key" id="Rkey">R</span>
+	  <span class="key" id="Tkey">T</span>
+	  <span class="key" id="Ykey">Y</span>
+	  <span class="key" id="Ukey">U</span>
+	  <span class="key" id="Ikey">I</span>
+	  <span class="key" id="Okey">O</span>
+	  <span class="key" id="Pkey">P</span>
+	</div>
+	<div id="row2">
+	  <span class="key" id="Akey">A</span>
+	  <span class="key" id="Skey">S</span>
+	  <span class="key" id="Dkey">D</span>
+	  <span class="key" id="Fkey">F</span>
+	  <span class="key" id="Gkey">G</span>
+	  <span class="key" id="Hkey">H</span>
+	  <span class="key" id="Jkey">J</span>
+	  <span class="key" id="Kkey">K</span>
+	  <span class="key" id="Lkey">L</span>
+	</div>
+	<div id="row3">
+	  <span class="key" id="Zkey">Z</span>
+	  <span class="key" id="Xkey">X</span>
+	  <span class="key" id="Ckey">C</span>
+	  <span class="key" id="Vkey">V</span>
+	  <span class="key" id="Bkey">B</span>
+	  <span class="key" id="Nkey">N</span>
+	  <span class="key" id="Mkey">M</span>
+	</div>
+	<br/>
+      </div>
+    </footer>
+    <script src="index.js"></script>
+  </body>
+</html>
