@@ -57,6 +57,52 @@ function stateCheck() {
     }
 }
 let currentGuess = "";
+function colour(guess, allWhite) {
+    let colours = [];
+    let ignoreIndices = [];
+    for (let i = 0; i < 5; i++) {
+        if (!allWhite) {
+            colours.push("grey");
+        }
+        else {
+            colours.push("white");
+        }
+    }
+    if (allWhite) {
+        return colours;
+    }
+    let answerCopy = "";
+    let guessCopy = "";
+    for (let i = 0; i < 5; i++) {
+        if (answer[i] === guess[i]) {
+            colours[i] = "green";
+            answerCopy += ' ';
+            guessCopy += ' ';
+            ignoreIndices.push(i);
+        }
+        else {
+            answerCopy += answer[i];
+            guessCopy += guess[i];
+        }
+    }
+    let yellowCounts = new Map();
+    for (let i = 0; i < guessCopy.length; i++) {
+        // Count how many times the remaining letters appear. This is how many
+        // times AT MOST we can mark a letter as yellow.
+        let count = answerCopy.split('').filter(x => x === guessCopy[i]).length;
+        yellowCounts.set(guessCopy[i], count);
+    }
+    // Last loop - go through each letter, decrementing the count each time we find match and marking that cell as yellow
+    for (let i = 0; i < guessCopy.length; i++) {
+        if (answerCopy.includes(guessCopy[i]) && guessCopy[i] !== ' ') {
+            if (yellowCounts.get(guessCopy[i]) > 0) {
+                yellowCounts.set(guessCopy[i], yellowCounts.get(guessCopy[i]) - 1);
+                colours[i] = "yellow";
+            }
+        }
+    }
+    return colours;
+}
 function drawGame() {
     // Game grid is six lines long - draw six rows of five boxes
     const boxGap = 5;
@@ -67,20 +113,14 @@ function drawGame() {
     // Y offset is whatever we want really, but we'll start at 50
     let yOffset = 50;
     for (let j = 0; j < 6; j++) {
+        const colours = colour(gameState.guesses[j], j >= gameState.currentRow);
         for (let i = 0; i < 5; i++) {
             let letter = "";
-            let colour = "white";
-            let answerCopy = answer;
+            let colour = colours[i];
             if (j < gameState.currentRow) {
                 letter = gameState.guesses[j][i];
-                if (letter === answer[i]) {
-                    colour = "green";
-                }
-                else {
-                    colour = "grey";
-                }
             }
-            if (j == gameState.currentRow) {
+            if (j === gameState.currentRow) {
                 if (currentGuess[i]) {
                     letter = currentGuess[i];
                 }
@@ -102,6 +142,9 @@ function drawScreen() {
             canvas.style.width = 800 * scaleFactor + "px";
         }
     }
+    if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
     drawGame();
 }
 window.addEventListener('resize', drawScreen);
@@ -121,7 +164,7 @@ function logGuess(guess) {
         gameState.gameOver = true;
     }
 }
-const answer = "BEAST";
+const answer = "BBEEB";
 function inputEvent(evt) {
     if (gameState.gameOver) {
         // The game is over.
