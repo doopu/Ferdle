@@ -1,5 +1,7 @@
 "use strict";
 // Mash some Stack Overflow together to get a seeded ordering of the words we're gonna have...
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
 let seed = 776;
 function random() {
     var x = Math.sin(seed++) * 10000;
@@ -697,6 +699,8 @@ function drawGame() {
     }
 }
 function resize() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
     canvas.height = canvas.offsetHeight;
     canvas.width = canvas.offsetWidth;
     drawScreen();
