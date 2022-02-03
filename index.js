@@ -571,9 +571,6 @@ shuffle(words);
 shuffle(words);
 const canvas = document.getElementById('mainCanvas');
 const ctx = canvas.getContext("2d");
-canvas.style.width = "800px";
-canvas.width = 800;
-canvas.height = 500;
 // Prevent selection of text while interacting with the canvas
 document.onselectstart = function () {
     return false;
@@ -700,18 +697,19 @@ function drawGame() {
     }
 }
 function drawScreen() {
+    // Width height ratio:
+    const ratio = 800 / 500;
     // Redraw the canvas to be as big as the space between the header and the footer
     // How many pixels do we have between the header and footer?
-    const header = 100;
-    const footer = 200; // consts for now
+    const headerElem = document.getElementById('header');
+    const footerElem = document.getElementById('footer');
+    const header = headerElem.offsetHeight;
+    const footer = footerElem.offsetHeight; // consts for now
     const gap = window.innerHeight - footer - header;
-    let scaleFactor = 1.0;
-    if (gap < 500) {
-        scaleFactor = gap / 500.0;
-        if (ctx) {
-            canvas.style.width = 800 * scaleFactor + "px";
-        }
-    }
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.height = canvas.offsetHeight;
+    canvas.width = canvas.offsetWidth;
     if (ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
@@ -722,10 +720,12 @@ window.addEventListener('keydown', inputEvent);
 window.addEventListener('click', clickEvent);
 function submitGuess() {
     if (currentGuess.length === 5) {
-        // TODO: Check word is in dictionary; if not, toast an error
         currentGuess = currentGuess.toUpperCase();
         if (words.includes(currentGuess)) {
             logGuess(currentGuess);
+        }
+        else {
+            // Toast an error?
         }
     }
 }
