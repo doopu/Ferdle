@@ -814,6 +814,7 @@ function inputEvent(evt: KeyboardEvent) {
 }
 
 function clickEvent(evt: Event) {
+    evt.preventDefault();
     const target = evt.target as Element;
     if (target && target.id) {
 	if (target.id === 'enter') {

@@ -773,6 +773,7 @@ function inputEvent(evt) {
     }
 }
 function clickEvent(evt) {
+    evt.preventDefault();
     const target = evt.target;
     if (target && target.id) {
         if (target.id === 'enter') {
