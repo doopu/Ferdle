@@ -9,12 +9,14 @@
     <meta name="language" content="English">
     <title>Ferdle - Fire Emblem Wordle!</title>
     <style>
+      html {
+      }
       canvas {
       }
       body{ height: 100vh; margin:0; }
 
-      header{ height:100px; background:lightcyan; }
-      footer{ height: 200px; background:PapayaWhip; }
+      header{ height:200px; overflow-y: hidden; }
+      footer{ height: 300px; overflow-y: hidden; }
 
       body{
 	  justify-content: center;
@@ -39,6 +41,7 @@
 	  -webkit-text-size-adjust: 100%;
       }
       div#keyboard {
+	  cursor: pointer;
 	  display: flex;
 	  flex-direction:column;
 	  justify-content: center;
@@ -71,36 +74,38 @@
     <footer>
       <div id="keyboard">
 	<div id="row1">
-	  <span class="key" id="Qkey">Q</span>
-	  <span class="key" id="Wkey">W</span>
-	  <span class="key" id="Ekey">E</span>
-	  <span class="key" id="Rkey">R</span>
-	  <span class="key" id="Tkey">T</span>
-	  <span class="key" id="Ykey">Y</span>
-	  <span class="key" id="Ukey">U</span>
-	  <span class="key" id="Ikey">I</span>
-	  <span class="key" id="Okey">O</span>
-	  <span class="key" id="Pkey">P</span>
+	  <span class="key" id="Q">Q</span>
+	  <span class="key" id="W">W</span>
+	  <span class="key" id="E">E</span>
+	  <span class="key" id="R">R</span>
+	  <span class="key" id="T">T</span>
+	  <span class="key" id="Y">Y</span>
+	  <span class="key" id="U">U</span>
+	  <span class="key" id="I">I</span>
+	  <span class="key" id="O">O</span>
+	  <span class="key" id="P">P</span>
 	</div>
 	<div id="row2">
-	  <span class="key" id="Akey">A</span>
-	  <span class="key" id="Skey">S</span>
-	  <span class="key" id="Dkey">D</span>
-	  <span class="key" id="Fkey">F</span>
-	  <span class="key" id="Gkey">G</span>
-	  <span class="key" id="Hkey">H</span>
-	  <span class="key" id="Jkey">J</span>
-	  <span class="key" id="Kkey">K</span>
-	  <span class="key" id="Lkey">L</span>
+	  <span class="key" id="A">A</span>
+	  <span class="key" id="S">S</span>
+	  <span class="key" id="D">D</span>
+	  <span class="key" id="F">F</span>
+	  <span class="key" id="G">G</span>
+	  <span class="key" id="H">H</span>
+	  <span class="key" id="J">J</span>
+	  <span class="key" id="K">K</span>
+	  <span class="key" id="L">L</span>
 	</div>
 	<div id="row3">
-	  <span class="key" id="Zkey">Z</span>
-	  <span class="key" id="Xkey">X</span>
-	  <span class="key" id="Ckey">C</span>
-	  <span class="key" id="Vkey">V</span>
-	  <span class="key" id="Bkey">B</span>
-	  <span class="key" id="Nkey">N</span>
-	  <span class="key" id="Mkey">M</span>
+	  <span class="key" id="delete">⌫</span>
+	  <span class="key" id="Z">Z</span>
+	  <span class="key" id="X">X</span>
+	  <span class="key" id="C">C</span>
+	  <span class="key" id="V">V</span>
+	  <span class="key" id="B">B</span>
+	  <span class="key" id="N">N</span>
+	  <span class="key" id="M">M</span>
+	  <span class="key" id="enter">↵</span>
 	</div>
 	<br/>
       </div>

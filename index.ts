@@ -1,3 +1,579 @@
+// Mash some Stack Overflow together to get a seeded ordering of the words we're gonna have...
+let seed = 776;
+function random() {
+    var x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+}
+
+function shuffle(array: string[]) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
+const words = [
+      "ABYSS",
+      "ADEPT",
+      "ADRAH",
+      "AEGIS",
+      "AENIR",
+      "AESHA",
+      "AGONY",
+      "ALDER",
+      "ALGOL",
+      "ALICE",
+      "ALOIS",
+      "ALTAR",
+      "AMITI",
+      "ANIMA",
+      "AQQAR",
+      "ARDEN",
+      "ARDRI",
+      "ARENA",
+      "ARETE",
+      "ARION",
+      "ARLEN",
+      "ARMOR",
+      "ARRAN",
+      "ARTUR",
+      "ARVIS",
+      "ASBEL",
+      "ASSAL",
+      "ASTRA",
+      "ASUGI",
+      "ATHOL",
+      "ATHOS",
+      "ATLAS",
+      "AURUM",
+      "AVOID",
+      "AZAMA",
+      "AZMUR",
+      "AZURA",
+      "BADGE",
+      "BALDR",
+      "BALOR",
+      "BANBA",
+      "BANTU",
+      "BARAN",
+      "BARDS",
+      "BARON",
+      "BARST",
+      "BARTH",
+      "BARTS",
+      "BATON",
+      "BATTA",
+      "BAZBA",
+      "BEAST",
+      "BENNY",
+      "BERAN",
+      "BINKS",
+      "BIRDS",
+      "BLACK",
+      "BLADE",
+      "BLAKE",
+      "BLAZE",
+      "BLOOM",
+      "BOIES",
+      "BONDS",
+      "BOOTS",
+      "BOVIS",
+      "BOYCE",
+      "BRADY",
+      "BRAGI",
+      "BRAND",
+      "BRAWL",
+      "BREAD",
+      "BRIAN",
+      "BRIDE",
+      "BROOK",
+      "BROOM",
+      "BRUNO",
+      "BRYCE",
+      "BRZAK",
+      "BUCKS",
+      "BYRON",
+      "CAEDA",
+      "CAMUS",
+      "CANAS",
+      "CANIS",
+      "CANTO",
+      "CARDS",
+      "CATCH",
+      "CECIL",
+      "CHAOS",
+      "CHARM",
+      "CHEST",
+      "CHILD",
+      "CHILL",
+      "CHROM",
+      "CIRCE",
+      "CLAIR",
+      "CLASS",
+      "CLAUD",
+      "CLAWS",
+      "CLIVE",
+      "CLUBS",
+      "CODDA",
+      "CODHA",
+      "COHEN",
+      "COINS",
+      "COLHO",
+      "CORAL",
+      "CREST",
+      "CROWN",
+      "CYRIL",
+      "DAEIN",
+      "DAGON",
+      "DAISY",
+      "DALEN",
+      "DAMAS",
+      "DANCE",
+      "DARIN",
+      "DAUNT",
+      "DAYAN",
+      "DEATH",
+      "DECOY",
+      "DEDUE",
+      "DEMON",
+      "DEVIL",
+      "DIECK",
+      "DODGE",
+      "DOLPH",
+      "DOLTH",
+      "DOZLA",
+      "DRACO",
+      "DRAUG",
+      "DREAD",
+      "DRINK",
+      "DROPS",
+      "DRUID",
+      "DRYAS",
+      "DULAM",
+      "DWYER",
+      "EAGLE",
+      "EDAIN",
+      "EFFIE",
+      "EIBEL",
+      "EITRI",
+      "ELENA",
+      "ELIBE",
+      "ELICE",
+      "ELISE",
+      "ELITE",
+      "EMBER",
+      "ENTEH",
+      "EQUUS",
+      "ERITZ",
+      "ETZEL",
+      "EUGEN",
+      "EVADE",
+      "EXPEL",
+      "FANGS",
+      "FATES",
+      "FEINT",
+      "FELIX",
+      "FEROX",
+      "FIANA",
+      "FIEND",
+      "FIGHT",
+      "FIONA",
+      "FIORA",
+      "FJORM",
+      "FLAER",
+      "FLAME",
+      "FLARE",
+      "FLASH",
+      "FLAYN",
+      "FLEET",
+      "FLORA",
+      "FLOUR",
+      "FOCUS",
+      "FOILS",
+      "FORDE",
+      "FORGE",
+      "FOTLA",
+      "FRANZ",
+      "FRAUS",
+      "FREYR",
+      "FROST",
+      "FRUIT",
+      "FUNKE",
+      "FURIA",
+      "GAIUS",
+      "GALLE",
+      "GARON",
+      "GARTH",
+      "GAZAK",
+      "GECKO",
+      "GEESE",
+      "GEITZ",
+      "GENNY",
+      "GEORG",
+      "GERIK",
+      "GHARN",
+      "GLADE",
+      "GLARE",
+      "GLASS",
+      "GLENN",
+      "GOLEM",
+      "GOMER",
+      "GOMEZ",
+      "GORAN",
+      "GOTOH",
+      "GRAVE",
+      "GREIL",
+      "GRIEF",
+      "GRIMA",
+      "GUARD",
+      "GYRAL",
+      "HADES",
+      "HAGAR",
+      "HAIKU",
+      "HALVE",
+      "HANON",
+      "HEATH",
+      "HEAVY",
+      "HENRY",
+      "HERBS",
+      "HERON",
+      "HICKS",
+      "HILDA",
+      "HOLST",
+      "HOMER",
+      "HONEY",
+      "HORSE",
+      "HRIST",
+      "HYMAN",
+      "IDEAL",
+      "IDUNN",
+      "IGNIS",
+      "IKONA",
+      "ILIOS",
+      "IMBUE",
+      "INDRA",
+      "INIGO",
+      "INNES",
+      "ITEMS",
+      "IZANA",
+      "IZUKA",
+      "JAGEN",
+      "JAKOB",
+      "JAMKE",
+      "JAROD",
+      "JARTH",
+      "JEDAH",
+      "JERME",
+      "JESSE",
+      "JORGE",
+      "JUDAH",
+      "JUDGE",
+      "JULIA",
+      "KABUL",
+      "KADEN",
+      "KAMUI",
+      "KAREL",
+      "KARIN",
+      "KARLA",
+      "KATAR",
+      "KATRI",
+      "KATTI",
+      "KEMPF",
+      "KILMA",
+      "KLEIN",
+      "KLIFF",
+      "KLIMT",
+      "KNOLL",
+      "KUKRI",
+      "KURTH",
+      "LADLE",
+      "LAGUZ",
+      "LAHNA",
+      "LAMIA",
+      "LANCE",
+      "LARGO",
+      "LARUM",
+      "LAURA",
+      "LAYLA",
+      "LEILA",
+      "LEPUS",
+      "LETHE",
+      "LEVEL",
+      "LEVIN",
+      "LEWYN",
+      "LIBRA",
+      "LIFIS",
+      "LIGHT",
+      "LINDA",
+      "LINDE",
+      "LINUS",
+      "LIONS",
+      "LISSA",
+      "LLOYD",
+      "LOBOS",
+      "LONQU",
+      "LOPTR",
+      "LORDS",
+      "LOWEN",
+      "LUCIA",
+      "LUKAS",
+      "LUMEL",
+      "LUNGE",
+      "LYKKE",
+      "LYRIA",
+      "MABEL",
+      "MACES",
+      "MAERA",
+      "MAGIC",
+      "MAIKO",
+      "MALIG",
+      "MANNU",
+      "MARAJ",
+      "MARCH",
+      "MARCO",
+      "MARIA",
+      "MARLA",
+      "MARTH",
+      "MARTY",
+      "MEDAL",
+      "MELEE",
+      "MERCY",
+      "MIDIA",
+      "MIDIR",
+      "MIGAL",
+      "MINTZ",
+      "MISHA",
+      "MONKE",
+      "MOORE",
+      "MORSE",
+      "MORVA",
+      "MUSAR",
+      "MYCEN",
+      "MYRRH",
+      "MYSON",
+      "NADER",
+      "NANNA",
+      "NASIR",
+      "NEIMI",
+      "NEVKA",
+      "NIAMH",
+      "NIHIL",
+      "NIIME",
+      "NILES",
+      "NINJA",
+      "NOBLE",
+      "NOIRE",
+      "NOLAN",
+      "NOMAD",
+      "NOMAH",
+      "NORNE",
+      "NOVIS",
+      "NUDGE",
+      "OATES",
+      "OATHS",
+      "OBORO",
+      "OGIER",
+      "OIFEY",
+      "OLWEN",
+      "OMOZU",
+      "ORSON",
+      "ORTON",
+      "OSCAR",
+      "OSIAN",
+      "OSKAR",
+      "OSWIN",
+      "OWAIN",
+      "PABLO",
+      "PALLA",
+      "PANIC",
+      "PANNE",
+      "PAPER",
+      "PATTY",
+      "PEARL",
+      "PEONY",
+      "PERCY",
+      "PERES",
+      "PERNE",
+      "PETRA",
+      "PHILA",
+      "PHINA",
+      "PILUM",
+      "PIVOT",
+      "POWER",
+      "PRIAM",
+      "PRIDE",
+      "PRIMA",
+      "PUPIL",
+      "PURGE",
+      "PUZON",
+      "QUEEN",
+      "RAIGH",
+      "RAIMI",
+      "RAITH",
+      "RALLY",
+      "RAMON",
+      "RANDY",
+      "RAVEN",
+      "REESE",
+      "REINA",
+      "RELIC",
+      "RENEE",
+      "REPEL",
+      "RINEA",
+      "RINGS",
+      "RISYL",
+      "ROARK",
+      "ROBIN",
+      "RODAN",
+      "ROGER",
+      "ROGUE",
+      "RONAN",
+      "ROWAN",
+      "RUBEN",
+      "RUFUS",
+      "RUGER",
+      "RUMEI",
+      "RUNAN",
+      "RUNES",
+      "RYOMA",
+      "SABER",
+      "SABLE",
+      "SACAE",
+      "SAGES",
+      "SAIAS",
+      "SAINT",
+      "SAIZO",
+      "SALEH",
+      "SALEM",
+      "SASHA",
+      "SAYRI",
+      "SCOTT",
+      "SEALS",
+      "SENNO",
+      "SERRA",
+      "SHINE",
+      "SHION",
+      "SHIPS",
+      "SHIRO",
+      "SHIVA",
+      "SHOPS",
+      "SHOTS",
+      "SHOVE",
+      "SHURA",
+      "SIGHT",
+      "SILAS",
+      "SIMIA",
+      "SIMON",
+      "SITRI",
+      "SKADI",
+      "SKILL",
+      "SKULD",
+      "SLEET",
+      "SLEUF",
+      "SMITE",
+      "SMOKE",
+      "SOLON",
+      "SONIA",
+      "SONYA",
+      "SOREN",
+      "SOTHE",
+      "SPEAR",
+      "SPEED",
+      "SPURN",
+      "SRENG",
+      "STAFF",
+      "STAHL",
+      "STARS",
+      "STEAL",
+      "STEEL",
+      "STICK",
+      "STONE",
+      "SULLY",
+      "SUMIA",
+      "SURTR",
+      "SWARM",
+      "SWEET",
+      "SWORD",
+      "SYLGR",
+      "TAKSH",
+      "TALON",
+      "TANYA",
+      "TARBA",
+      "THANI",
+      "THIEF",
+      "THRIA",
+      "THRUD",
+      "TIANA",
+      "TIGER",
+      "TITAN",
+      "TOBIN",
+      "TOMAS",
+      "TOMES",
+      "TONIC",
+      "TORUS",
+      "TRADE",
+      "TRAIT",
+      "TURNS",
+      "UNITS",
+      "UNITY",
+      "URVAN",
+      "UTHER",
+      "VAIDA",
+      "VAIKE",
+      "VALLA",
+      "VALNI",
+      "VALOR",
+      "VASTO",
+      "VERNA",
+      "VOLKE",
+      "VOLUG",
+      "VOUGE",
+      "WALLS",
+      "WALTZ",
+      "WARDS",
+      "WASTE",
+      "WATCH",
+      "WATER",
+      "WAVES",
+      "WHITE",
+      "WIGHT",
+      "WINGS",
+      "WITCH",
+      "WOLFF",
+      "WOODS",
+      "WOOTZ",
+      "WRATH",
+      "YARNE",
+      "YASHA",
+      "YAZAM",
+      "YODEL",
+      "YODER",
+      "ZAGAM",
+      "ZAGAN",
+      "ZANTH",
+      "ZEISS",
+      "ZELOT",
+      "ZHARA",
+      "ZOFIA",
+      "ZONTA"];
+
+// Yep, this is what enterprise development looks like.
+shuffle(words);
+shuffle(words);
+shuffle(words);
+shuffle(words);
+
 const canvas: HTMLCanvasElement = document.getElementById('mainCanvas') as HTMLCanvasElement;
 const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
 
@@ -6,7 +582,7 @@ canvas.width = 800;
 canvas.height = 500;
 
 // Prevent selection of text while interacting with the canvas
-canvas.onselectstart = function () {
+document.onselectstart = function () {
    return false;
 }
 
@@ -82,7 +658,7 @@ function colour(guess: string, allWhite: boolean) : string[] {
     let ignoreIndices = [];
     for (let i = 0; i < 5; i++) {
 	if (!allWhite) {
-	    colours.push("grey");
+	    colours.push("rgb(200, 200, 200)");
 	} else {
 	    colours.push("white");
 	}
@@ -94,7 +670,7 @@ function colour(guess: string, allWhite: boolean) : string[] {
     let guessCopy = "";
     for (let i = 0; i < 5; i++) {
 	if (answer[i] === guess[i]) {
-	    colours[i] = "green";
+	    colours[i] = "rgb(135, 224, 151)";
 	    answerCopy += ' ';
 	    guessCopy += ' ';
 	    ignoreIndices.push(i);
@@ -176,12 +752,15 @@ function drawScreen() {
 
 window.addEventListener('resize', drawScreen);
 window.addEventListener('keydown', inputEvent);
+window.addEventListener('click', clickEvent);
 
 function submitGuess() {
     if (currentGuess.length === 5) {
 	// TODO: Check word is in dictionary; if not, toast an error
-	// Log guess in game state, move on to next...
-	logGuess(currentGuess);
+	currentGuess = currentGuess.toUpperCase();
+	if (words.includes(currentGuess)) {
+	    logGuess(currentGuess);
+	}
     }
 }
 
@@ -194,29 +773,58 @@ function logGuess(guess: string) {
     }
 }
 
-const answer = "BBEEB";
+function todaysIndex() : number {
+    const oneDay = 24 * 60 * 60 * 1000;
+    const firstDate = new Date(2022, 1, 3);
+    const secondDate = new Date();
+    secondDate.setHours(0,0,0,0);
 
-function inputEvent(evt: KeyboardEvent) {
+    const diffDays = Math.round(Math.abs(((+firstDate) - (+secondDate)) / oneDay));
+    return diffDays;
+}
+
+const answer = words[todaysIndex()];
+
+function processInput(keyCode: number) {
     if (gameState.gameOver) {
-	// The game is over.
+	// The game is over, no need to process anything!
 	drawScreen();
+	return;
     }
-    if (!evt.repeat) {
-	if (evt.keyCode > 64 && evt.keyCode < 91) {
-	    if (currentGuess.length < 5) {
-		currentGuess += evt.key.toUpperCase();
-	    }
+    if (keyCode > 64 && keyCode < 91) {
+	if (currentGuess.length < 5) {
+	    currentGuess += String.fromCharCode(keyCode);
 	}
-	if (evt.keyCode === 8 || evt.keyCode == 46) {
-	    if (currentGuess.length > 0) {
-		currentGuess = currentGuess.substring(0, currentGuess.length - 1);
-	    }
+    }
+    if (keyCode === 8 || keyCode == 46) {
+	if (currentGuess.length > 0) {
+	    currentGuess = currentGuess.substring(0, currentGuess.length - 1);
 	}
-	if (evt.keyCode === 13) {
-	    submitGuess();
-	}
+    }
+    if (keyCode === 13) {
+	submitGuess();
     }
     drawScreen();
 }
 
+function inputEvent(evt: KeyboardEvent) {
+    if (!evt.repeat) {
+	processInput(evt.keyCode);
+    }
+}
+
+function clickEvent(evt: Event) {
+    const target = evt.target as Element;
+    if (target && target.id) {
+	if (target.id === 'enter') {
+	    processInput(13); // ugh
+	} else if (target.id === 'delete') {
+	    processInput(8); // oh the humanity
+	} else if (target.id.length === 1) {
+	    processInput(target.id.charCodeAt(0));
+	}
+    }
+}
+
+stateCheck();
 drawScreen();
