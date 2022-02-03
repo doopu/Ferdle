@@ -705,7 +705,6 @@ function drawScreen() {
     const footerElem = document.getElementById('footer');
     const header = headerElem.offsetHeight;
     const footer = footerElem.offsetHeight; // consts for now
-    const gap = window.innerHeight - footer - header;
     canvas.style.width = '100%';
     canvas.style.height = '100%';
     canvas.height = canvas.offsetHeight;
