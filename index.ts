@@ -728,6 +728,12 @@ function drawGame() {
     }
 }
 
+function resize() {
+    canvas.height = canvas.offsetHeight;
+    canvas.width = canvas.offsetWidth;
+    drawScreen();
+}
+
 function drawScreen() {
     // Width height ratio:
     const ratio = 800 / 500;
@@ -737,20 +743,13 @@ function drawScreen() {
     const headerElem: HTMLElement | null = document.getElementById('header');
     const footerElem: HTMLElement | null = document.getElementById('footer');
 
-    const header = headerElem!.offsetHeight;
-    const footer = footerElem!.offsetHeight; // consts for now
-    canvas.style.width ='100%';
-    canvas.style.height='100%';
-    canvas.height = canvas.offsetHeight;
-    canvas.width = canvas.offsetWidth;
-
     if (ctx) {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
     drawGame();
 }
 
-window.addEventListener('resize', drawScreen);
+window.addEventListener('resize', resize);
 window.addEventListener('keydown', inputEvent);
 window.addEventListener('click', clickEvent);
 
@@ -829,4 +828,4 @@ function clickEvent(evt: Event) {
 }
 
 stateCheck();
-drawScreen();
+resize();
