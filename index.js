@@ -5,6 +5,10 @@ var shareButton = document.getElementById("share");
 var spanHelp = document.getElementsByClassName("close-help")[0];
 var keyboardDiv = document.getElementById("keyboard");
 var answerDiv = document.getElementById("answer");
+var postGameDiv = document.getElementById("postGame");
+var shareDiv = document.getElementById("shareBox");
+var twitterButton = document.getElementById("twitterShare");
+var discordButton = document.getElementById("discordShare");
 // Mash some Stack Overflow together to get a seeded ordering of the words we're gonna have...
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -577,6 +581,7 @@ shuffle(words);
 shuffle(words);
 shuffle(words);
 shuffle(words);
+const answer = words[todaysIndex()];
 const canvas = document.getElementById('mainCanvas');
 const ctx = canvas.getContext("2d");
 // Prevent selection of text while interacting with the canvas
@@ -611,9 +616,12 @@ class GameState {
         this.currentRow = 0;
         this.gameOver = false;
         this.win = "X";
+        this.colours = [];
+        this.letterMap = new Map();
     }
     saveState() {
         window.localStorage.setItem('ferdleState', JSON.stringify(this));
+        window.localStorage.setItem('ferdleLetterMap', JSON.stringify(Array.from(gameState.letterMap.entries())));
     }
     loadState() {
         if (window.localStorage.getItem('ferdleState')) {
@@ -624,6 +632,21 @@ class GameState {
             gameState.currentRow = gameStateData.currentRow;
             gameState.gameOver = gameStateData.gameOver;
             gameState.win = gameStateData.win;
+            if (gameStateData.colours) {
+                gameState.colours = gameStateData.colours;
+            }
+            else {
+                // Calculate colours as if it's the first time
+                for (let guess of gameState.guesses) {
+                    gameState.colours.push(colour(guess, false));
+                }
+            }
+            if (window.localStorage.getItem('ferdleLetterMap')) {
+                gameState.letterMap = new Map(JSON.parse(window.localStorage.getItem('ferdleLetterMap')));
+            }
+            else {
+                gameState.letterMap = new Map();
+            }
             return gameState;
         }
         return new GameState();
@@ -635,12 +658,14 @@ function gameOver() {
     if (gameState.gameOver) {
         // Enable the share button
         shareButton.style.display = 'block';
+        shareDiv.style.display = 'block';
+        postGameDiv.style.display = 'block';
         let text = "";
         if (gameState.win !== "X") {
             text = "Congratulations, you got it! See you tomorrow!";
         }
         else {
-            text = "Oops, not this time!<br/><br/>The word was: " + answer + ".<br/><br/>See you tomorrow!";
+            text = "Oops, not this time!<br/>The word was: " + answer + ".<br/>See you tomorrow!";
         }
         answerDiv.innerHTML = text;
         answerDiv.style.display = 'block';
@@ -654,6 +679,8 @@ function stateCheck() {
         gameState.currentRow = 0;
         gameState.gameOver = false;
         gameState.win = "X";
+        gameState.colours = [];
+        gameState.letterMap = new Map();
     }
     if (gameState.gameOver) {
         gameOver();
@@ -713,15 +740,17 @@ function drawGame() {
     const boxLineWidth = 5 * boxWidth + 4 * boxGap;
     // First X offset is half the space remaining once you remove the box width from the total width
     let xOffset = (canvas.width - boxLineWidth) / 2;
-    // Y offset is whatever we want really, but we'll start at 50
-    // TODO!!! This should be such that the full game is centered in the canvas.
+    // Vertical alignment...
     let totalGameHeight = 6 * (boxGap + boxWidth);
     let yOffset = (canvas.height - totalGameHeight) / 2;
+    // Draw boxes...
     for (let j = 0; j < 6; j++) {
-        const colours = colour(gameState.guesses[j], j >= gameState.currentRow);
         for (let i = 0; i < 5; i++) {
             let letter = "";
-            let colour = colours[i];
+            let colour = "white";
+            if (gameState.colours.length > j) {
+                colour = gameState.colours[j][i];
+            }
             if (j < gameState.currentRow) {
                 letter = gameState.guesses[j][i];
             }
@@ -752,6 +781,15 @@ function drawScreen() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
     drawGame();
+    updateKeyboardColours();
+}
+function updateKeyboardColours() {
+    for (const [key, value] of gameState.letterMap.entries()) {
+        const keyElem = document.getElementById(key);
+        if (keyElem) {
+            keyElem.style.backgroundColor = value;
+        }
+    }
 }
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', inputEvent);
@@ -770,8 +808,30 @@ function submitGuess() {
         }
     }
 }
+function updateLetterMap(guess, colours) {
+    for (let i = 0; i < guess.length; i++) {
+        let colour = colours[i];
+        let keyColour = "white";
+        if (gameState.letterMap.has(guess[i])) {
+            keyColour = gameState.letterMap.get(guess[i]);
+        }
+        // Only 'upgrade' colours -> white to yellow/green; yellow to green. Don't change greens.
+        if (keyColour === 'rgb(135, 224, 151)') {
+            continue;
+        }
+        if (keyColour === 'yellow') {
+            if (colour === 'rgb(135, 224, 151)') {
+                gameState.letterMap.set(guess[i], colour);
+            }
+            continue;
+        }
+        gameState.letterMap.set(guess[i], colour);
+    }
+}
 function logGuess(guess) {
     gameState.guesses.push(guess);
+    gameState.colours.push(colour(guess, false));
+    updateLetterMap(guess, colour(guess, false));
     gameState.currentRow += 1;
     currentGuess = "";
     if (guess === answer) {
@@ -791,7 +851,6 @@ function todaysIndex() {
     const diffDays = Math.round(Math.abs(((+firstDate) - (+secondDate)) / oneDay));
     return diffDays;
 }
-const answer = words[todaysIndex()];
 function processInput(keyCode) {
     if (gameState.gameOver) {
         // The game is over, no need to process anything!
@@ -833,7 +892,7 @@ function clickEvent(evt) {
         }
     }
 }
-function copyResult() {
+function copyResult(discord) {
     let copyText = "SOL KATTI BETA " + gameState.win + "/6 \n";
     for (let guess of gameState.guesses) {
         let colours = colour(guess, false);
@@ -849,6 +908,9 @@ function copyResult() {
                 copyText += "🟩";
             }
         }
+        if (discord) {
+            copyText += "  ||`" + guess + "`||";
+        }
         copyText += '\n';
     }
     copyText += "\nhttps://doopu.github.io/solkatti/";
@@ -860,12 +922,21 @@ function copyResult() {
 }
 stateCheck();
 resize();
-shareButton.onclick = function () {
+function copyButton(discord = false) {
     var snack = document.getElementById("snackbar");
     snack.innerHTML = "Result copied to clipboard!";
     snack.className = "show";
     setTimeout(function () { snack.className = snack.className.replace("show", ""); }, 3000);
-    copyResult();
+    copyResult(discord);
+}
+shareButton.onclick = function () {
+    copyButton(false);
+};
+twitterButton.onclick = function () {
+    copyButton(false);
+};
+discordButton.onclick = function () {
+    copyButton(true);
 };
 // Modal stuff
 // When the user clicks the button, open the modal

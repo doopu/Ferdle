@@ -18,7 +18,15 @@
 	  width: 100%;
 	  height: 100%;
       }
+      #postGame {
+	  display: none;
+      }
       #answer {
+	  display: none;
+	  font-size: 1.5em;
+	  text-align: center;
+      }
+      #shareBox {
 	  display: none;
 	  font-size: 1.5em;
 	  text-align: center;
@@ -116,14 +124,17 @@
 	  padding: 0.2em;
 	  width:32%;
 	  height:50%;
-	  background:lightgrey;
+	  background: rgba(0, 0, 0, 0);
+	  border: solid lightgrey;
 	  border-radius: 0.5em;
-	  border-width: 0.5em;
+	  border-width: 0.1em;
 	  margin: 2px;
 	  text-align: center;
 	  display: inline-flex;
 	  align-items: center;
 	  justify-content: center;
+	  cursor: pointer;
+	  -webkit-tap-highlight-color: transparent;
       }
       main {
 	  flex: auto;
@@ -265,7 +276,14 @@
 	</div>
     </main>
     <footer id="footer">
-      <div id="answer">
+      <div id="postGame">
+	<div id="answer">
+	</div>
+	<br/>
+	<div id="shareBox">
+	  <span class="key" id="twitterShare">Copy Result For Twitter</span>
+	  <span class="key" id="discordShare">Copy Result For Discord</span>
+	</div>
       </div>
       <div id="keyboard">
 	<div class="keyboardRow" id="row1">
