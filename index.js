@@ -640,7 +640,7 @@ function gameOver() {
             text = "Congratulations, you got it! See you tomorrow!";
         }
         else {
-            text = "Better luck next time! The word was: " + answer + ". See you tomorrow!";
+            text = "Oops, not this time!<br/><br/>The word was: " + answer + ".<br/><br/>See you tomorrow!";
         }
         answerDiv.innerHTML = text;
         answerDiv.style.display = 'block';
