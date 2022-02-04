@@ -1,4 +1,8 @@
 "use strict";
+var infoModal = document.getElementById("infoModal");
+var helpButton = document.getElementById("help");
+var shareButton = document.getElementById("share");
+var spanHelp = document.getElementsByClassName("close-help")[0];
 // Mash some Stack Overflow together to get a seeded ordering of the words we're gonna have...
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -611,7 +615,14 @@ class GameState {
     }
     loadState() {
         if (window.localStorage.getItem('ferdleState')) {
-            return JSON.parse(window.localStorage.getItem('ferdleState'));
+            let gameStateData = JSON.parse(window.localStorage.getItem('ferdleState'));
+            let gameState = new GameState();
+            gameState.date = new Date(gameStateData.date);
+            gameState.guesses = gameStateData.guesses;
+            gameState.currentRow = gameStateData.currentRow;
+            gameState.gameOver = gameStateData.gameOver;
+            gameState.win = gameStateData.win;
+            return gameState;
         }
         return new GameState();
     }
@@ -735,7 +746,10 @@ function submitGuess() {
             logGuess(currentGuess);
         }
         else {
-            // Toast an error?
+            var snack = document.getElementById("snackbar");
+            snack.innerHTML = "Invalid word.";
+            snack.className = "show";
+            setTimeout(function () { snack.className = snack.className.replace("show", ""); }, 3000);
         }
     }
 }
@@ -750,6 +764,7 @@ function logGuess(guess) {
         gameState.gameOver = true;
         shareButton.style.display = 'block';
     }
+    gameState.saveState();
 }
 function todaysIndex() {
     const oneDay = 24 * 60 * 60 * 1000;
@@ -829,19 +844,16 @@ function copyResult() {
 stateCheck();
 resize();
 // Modal stuff
-var infoModal = document.getElementById("infoModal");
-var helpButton = document.getElementById("help");
-var shareButton = document.getElementById("share");
-var spanHelp = document.getElementsByClassName("close-help")[0];
 // When the user clicks the button, open the modal
 helpButton.onclick = function () {
     infoModal.style.display = "block";
 };
 shareButton.onclick = function () {
     var snack = document.getElementById("snackbar");
+    snack.innerHTML = "Result copied to clipboard!";
     snack.className = "show";
-    copyResult();
     setTimeout(function () { snack.className = snack.className.replace("show", ""); }, 3000);
+    copyResult();
 };
 spanHelp.addEventListener('click', function () {
     infoModal.style.display = "none";
