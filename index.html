@@ -25,9 +25,11 @@
       body{
 	  height: 100%;
 	  min-height: -webkit-fill-available;
+	  background-color: #FDF5DF;
+	  color: #1A2238;
       }
 
-      header{ height: 5%;  }
+      header{ height: 10%; width: 80% }
       main { height: 6%; }
       footer{ height: 35%; }
 
@@ -66,9 +68,6 @@
 	  width: 100%;
       }
 
-      div {
-	  color: #183a1d;
-      }
       html {
 	  font-family: sans-serif;
 	  -webkit-text-size-adjust: 100%;
@@ -102,11 +101,13 @@
 	  width: 100%;
 	  height: 100%;
 	  display: flex;
-	  flex-direction:column;
-	  justify-content: center;
+	  flex-direction:row;
+	  flex-wrap: nowrap;
+	  justify-content: space-between;
 	  align-items: center;
       }
-      span {
+
+      span.key {
 	  padding: 0.2em;
 	  width:32%;
 	  height:50%;
@@ -127,12 +128,130 @@
 	  width: 100%;
 	  height: 100%;
       }
+
+      .title {
+	  left: 0;
+	  right: 0;
+	  position: absolute;
+	  text-align: center;
+	  pointer-events: none;
+      }
+
+      .clickable {
+	  font-size: 1.5em;
+	  cursor: pointer;
+      }
+
+      .share {
+	  display: none;
+      }
+
+      .modal {
+	  display: none;
+	  position: fixed;
+	  z-index: 1;
+	  padding-top: 100px;
+	  left: 0;
+	  top: 0;
+	  width: 100%;
+	  height: 100%;
+	  overflow: auto;
+	  background-color: rgb(0,0,0);
+	  background-color: rgba(0,0,0,0.4);
+      }
+
+      /* Modal Content */
+      .modal-content {
+	  background-color: #fefefe;
+	  margin: auto;
+	  padding: 20px;
+	  border: 1px solid #888;
+	  width: 80%;
+      }
+
+      /* The Close Button */
+      .close {
+	  color: #aaaaaa;
+	  float: right;
+	  font-size: 28px;
+	  font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+	  color: #000;
+	  text-decoration: none;
+	  cursor: pointer;
+      }
+
+      /* The snackbar - position it at the bottom and in the middle of the screen */
+      #snackbar {
+	  visibility: hidden; /* Hidden by default. Visible on click */
+	  min-width: 250px; /* Set a default minimum width */
+	  margin-left: -125px; /* Divide value of min-width by 2 */
+	  background-color: #333; /* Black background color */
+	  color: #fff; /* White text color */
+	  text-align: center; /* Centered text */
+	  border-radius: 2px; /* Rounded borders */
+	  padding: 16px; /* Padding */
+	  position: fixed; /* Sit on top of the screen */
+	  z-index: 1; /* Add a z-index if needed */
+	  left: 50%; /* Center the snackbar */
+	  bottom: 30px; /* 30px from the bottom */
+      }
+
+      /* Show the snackbar when clicking on a button (class added with JavaScript) */
+      #snackbar.show {
+	  visibility: visible; /* Show the snackbar */
+	  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+	  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+
+      /* Animations to fade the snackbar in and out */
+      @-webkit-keyframes fadein {
+	  from {bottom: 0; opacity: 0;}
+	  to {bottom: 30px; opacity: 1;}
+      }
+
+      @keyframes fadein {
+	  from {bottom: 0; opacity: 0;}
+	  to {bottom: 30px; opacity: 1;}
+      }
+
+      @-webkit-keyframes fadeout {
+	  from {bottom: 30px; opacity: 1;}
+	  to {bottom: 0; opacity: 0;}
+      }
+
+      @keyframes fadeout {
+	  from {bottom: 30px; opacity: 1;}
+	  to {bottom: 0; opacity: 0;}
+      }
+
   </style>
 </head>
   <body>
     <header id="header">
       <div id="headerThing">
-	<h2>SOL KATTI</h2>
+	<div>
+	  <span class="clickable" id="help">ⓘ</span>
+	</div>
+	<div class="title">
+	  <h2>SOL KATTI</h2>
+	</div>
+	<div>
+	  <span class="clickable share" id="share"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24" height="24" viewBox="0 0 333.115 333.115" style="enable-background:new 0 0 333.115 333.115;" xml:space="preserve">
+<path d="M229.143,235.253c-5.458,0-10.697,0.909-15.602,2.566l-61.606-61.6c0.633-3.124,0.965-6.354,0.965-9.661
+	c0-3.307-0.332-6.535-0.965-9.656l61.606-61.602c4.904,1.655,10.144,2.568,15.602,2.568c26.986,0,48.938-21.951,48.938-48.931
+	C278.08,21.952,256.129,0,229.143,0c-26.976,0-48.925,21.952-48.925,48.938c0,5.459,0.907,10.703,2.563,15.609l-57.824,57.822
+	c-6.363-3.036-13.48-4.743-20.986-4.743c-26.985,0-48.936,21.953-48.936,48.932c0,26.986,21.95,48.938,48.936,48.938
+	c7.506,0,14.623-1.706,20.987-4.743l57.823,57.824c-1.656,4.903-2.563,10.152-2.563,15.608c0,26.981,21.949,48.931,48.925,48.931
+	c26.986,0,48.938-21.949,48.938-48.931C278.08,257.203,256.129,235.253,229.143,235.253z"/>
+</span>
+	</div>
       </div>
     </header>
     <main>
@@ -179,6 +298,24 @@
 	<br/>
       </div>
     </footer>
+
+    <!-- Modals -->
+    <div id="infoModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+	<span class="close-help">&times;</span>
+	<p>SOL KATTI is a Wordle clone, for Fire Emblem fanatics!</p>
+	<p>The game will only accept Fire Emblem related words, making SOL KATTI brutally difficult.</p>
+	<p>A hint - SOL KATTI features a huge number of weapon, character, location, and item names, among other miscellaneous terms. Plurals are limited but present for things like weapons or items, but not for characters.</P>
+	<p>One new SOL KATTI will appear every day for... a while. If you enter a word that isn't accepted, and you think it should have been, contact me!</p>
+	<br/>
+	<p>Created by <a href="https://twitter.com/WhoIsDoopu">Doopu</a>, to annoy <a href="https://www.twitch.tv/dnkabs">Kabs</a>.</p>
+      </div>
+
+    </div>
+
+    <div id="snackbar">Result copied to clipboard!</div>
     <script src="index.js"></script>
   </body>
 </html>

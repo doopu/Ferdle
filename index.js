@@ -604,6 +604,7 @@ class GameState {
         this.guesses = [];
         this.currentRow = 0;
         this.gameOver = false;
+        this.win = "X";
     }
     saveState() {
         window.localStorage.setItem('ferdleState', JSON.stringify(this));
@@ -623,6 +624,11 @@ function stateCheck() {
         gameState.guesses = [];
         gameState.currentRow = 0;
         gameState.gameOver = false;
+        gameState.win = "X";
+    }
+    if (gameState.gameOver) {
+        // Enable the share button
+        shareButton.style.display = 'block';
     }
 }
 let currentGuess = "";
@@ -680,7 +686,9 @@ function drawGame() {
     // First X offset is half the space remaining once you remove the box width from the total width
     let xOffset = (canvas.width - boxLineWidth) / 2;
     // Y offset is whatever we want really, but we'll start at 50
-    let yOffset = 50;
+    // TODO!!! This should be such that the full game is centered in the canvas.
+    let totalGameHeight = 6 * (boxGap + boxWidth);
+    let yOffset = (canvas.height - totalGameHeight) / 2;
     for (let j = 0; j < 6; j++) {
         const colours = colour(gameState.guesses[j], j >= gameState.currentRow);
         for (let i = 0; i < 5; i++) {
@@ -735,8 +743,12 @@ function logGuess(guess) {
     gameState.guesses.push(guess);
     gameState.currentRow += 1;
     currentGuess = "";
-    if (guess === answer || gameState.currentRow > 6) {
+    if (guess === answer) {
+        gameState.win = gameState.currentRow + "";
+    }
+    if (guess === answer || gameState.currentRow > 5) {
         gameState.gameOver = true;
+        shareButton.style.display = 'block';
     }
 }
 function todaysIndex() {
@@ -789,5 +801,54 @@ function clickEvent(evt) {
         }
     }
 }
+function copyResult() {
+    let copyText = "SOL KATTI BETA " + gameState.win + "/6 \n";
+    for (let guess of gameState.guesses) {
+        let colours = colour(guess, false);
+        // terrible
+        for (let colour of colours) {
+            if (colour === 'rgb(200, 200, 200)') {
+                copyText += "⬛";
+            }
+            if (colour === 'yellow') {
+                copyText += "🟨";
+            }
+            if (colour === 'rgb(135, 224, 151)') {
+                copyText += "🟩";
+            }
+        }
+        copyText += '\n';
+    }
+    copyText += "\nhttps://doopu.github.io/solkatti/";
+    navigator.clipboard.writeText(copyText).then(function () {
+        console.log('Copy successful!');
+    }, function (err) {
+        console.error('Copy failed...', err);
+    });
+}
 stateCheck();
 resize();
+// Modal stuff
+var infoModal = document.getElementById("infoModal");
+var helpButton = document.getElementById("help");
+var shareButton = document.getElementById("share");
+var spanHelp = document.getElementsByClassName("close-help")[0];
+// When the user clicks the button, open the modal
+helpButton.onclick = function () {
+    infoModal.style.display = "block";
+};
+shareButton.onclick = function () {
+    var snack = document.getElementById("snackbar");
+    snack.className = "show";
+    copyResult();
+    setTimeout(function () { snack.className = snack.className.replace("show", ""); }, 3000);
+};
+spanHelp.addEventListener('click', function () {
+    infoModal.style.display = "none";
+});
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == infoModal) {
+        infoModal.style.display = "none";
+    }
+};
