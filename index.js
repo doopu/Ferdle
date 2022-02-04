@@ -4,6 +4,7 @@ var helpButton = document.getElementById("help");
 var shareButton = document.getElementById("share");
 var spanHelp = document.getElementsByClassName("close-help")[0];
 var keyboardDiv = document.getElementById("keyboard");
+var answerDiv = document.getElementById("answer");
 // Mash some Stack Overflow together to get a seeded ordering of the words we're gonna have...
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -630,6 +631,22 @@ class GameState {
 }
 ;
 let gameState = new GameState().loadState();
+function gameOver() {
+    if (gameState.gameOver) {
+        // Enable the share button
+        shareButton.style.display = 'block';
+        let text = "";
+        if (gameState.win !== "X") {
+            text = "Congratulations, you got it! See you tomorrow!";
+        }
+        else {
+            text = "Better luck next time! The word was: " + answer + ". See you tomorrow!";
+        }
+        answerDiv.innerHTML = text;
+        answerDiv.style.display = 'block';
+        keyboardDiv.style.display = 'none';
+    }
+}
 function stateCheck() {
     if (gameState.date.getDate() !== new Date().getDate()) {
         gameState.date = new Date();
@@ -639,8 +656,7 @@ function stateCheck() {
         gameState.win = "X";
     }
     if (gameState.gameOver) {
-        // Enable the share button
-        shareButton.style.display = 'block';
+        gameOver();
     }
 }
 let currentGuess = "";
@@ -763,7 +779,7 @@ function logGuess(guess) {
     }
     if (guess === answer || gameState.currentRow > 5) {
         gameState.gameOver = true;
-        shareButton.style.display = 'block';
+        gameOver();
     }
     gameState.saveState();
 }
