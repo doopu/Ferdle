@@ -3,6 +3,7 @@ var infoModal = document.getElementById("infoModal");
 var helpButton = document.getElementById("help");
 var shareButton = document.getElementById("share");
 var spanHelp = document.getElementsByClassName("close-help")[0];
+var keyboardDiv = document.getElementById("keyboard");
 // Mash some Stack Overflow together to get a seeded ordering of the words we're gonna have...
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -738,7 +739,7 @@ function drawScreen() {
 }
 window.addEventListener('resize', resize);
 window.addEventListener('keydown', inputEvent);
-window.addEventListener('click', clickEvent);
+keyboardDiv.addEventListener('click', clickEvent);
 function submitGuess() {
     if (currentGuess.length === 5) {
         currentGuess = currentGuess.toUpperCase();
@@ -843,17 +844,17 @@ function copyResult() {
 }
 stateCheck();
 resize();
-// Modal stuff
-// When the user clicks the button, open the modal
-helpButton.onclick = function () {
-    infoModal.style.display = "block";
-};
 shareButton.onclick = function () {
     var snack = document.getElementById("snackbar");
     snack.innerHTML = "Result copied to clipboard!";
     snack.className = "show";
     setTimeout(function () { snack.className = snack.className.replace("show", ""); }, 3000);
     copyResult();
+};
+// Modal stuff
+// When the user clicks the button, open the modal
+helpButton.onclick = function () {
+    infoModal.style.display = "block";
 };
 spanHelp.addEventListener('click', function () {
     infoModal.style.display = "none";
