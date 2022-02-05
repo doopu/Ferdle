@@ -677,6 +677,7 @@ function drawBox(x: number, y: number,
 
 class GameState {
     date: Date;
+    round: number;
     currentRow: number;
     guesses: string[];
     gameOver: boolean;
@@ -699,6 +700,12 @@ class GameState {
 	    gameState.currentRow = gameStateData.currentRow;
 	    gameState.gameOver = gameStateData.gameOver;
 	    gameState.win = gameStateData.win;
+	    if (gameStateData.round) {
+		gameState.round = gameStateData.round;
+	    } else {
+		// Best guess.
+		gameState.round = todaysIndex();
+	    }
 	    if (gameStateData.colours) {
 		gameState.colours = gameStateData.colours;
 	    } else {
@@ -721,6 +728,7 @@ class GameState {
     // Should only be called the first time the user starts the game
     constructor() {
 	this.date = new Date();
+	this.round = todaysIndex();
 	this.guesses = [];
 	this.currentRow = 0;
 	this.gameOver = false;
@@ -754,6 +762,7 @@ function gameOver() {
 function stateCheck() {
     if (gameState.date.getDate() !== new Date().getDate()) {
 	gameState.date = new Date();
+	gameState.round = todaysIndex();
 	gameState.guesses = [];
 	gameState.currentRow = 0;
 	gameState.gameOver = false;
@@ -946,9 +955,9 @@ function logGuess(guess: string) {
 
 function todaysIndex() : number {
     const oneDay = 24 * 60 * 60 * 1000;
-    const firstDate = new Date(2022, 1, 3);
+    const firstDate = new Date(Date.UTC(2022, 1, 5, 0, 0, 0));
     const secondDate = new Date();
-    secondDate.setHours(0,0,0,0);
+    secondDate.setUTCHours(0,0,0,0);
 
     const diffDays = Math.round(Math.abs(((+firstDate) - (+secondDate)) / oneDay));
     return diffDays;
@@ -998,7 +1007,7 @@ function clickEvent(evt: Event) {
 }
 
 function copyResult(discord: boolean) {
-    let copyText = "SOL KATTI BETA " + gameState.win + "/6 \n";
+    let copyText = "SOL KATTI #" + (gameState.round + 1) + " " + gameState.win + "/6 \n";
     for (let guess of gameState.guesses) {
 	let colours = colour(guess, false);
 	// terrible
