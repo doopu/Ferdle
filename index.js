@@ -338,6 +338,7 @@ const words = [
     "FATES",
     "SENNO",
     "DAGON",
+    "EMBLA",
     "NILES",
     "LEPUS",
     "EUGEN",
